@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import model.DAO.Conexao;
+import model.DAO.Conexao1;
 import model.Usuario;
 
 /**
@@ -96,18 +96,18 @@ public class cadastroUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      try {
-            Connection conexao = new Conexao().getConnection();
-            String sql = "insert into usuarioo(usuarioo, senha1) values ('anaa', '123');";
-          PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.execute();
-            conexao.close();
+        try {
+            Connection conexao1 = new Conexao1().getConnection();
             
+            String sql = "insert into usuario (usuario, senha) values ('luiz', 'luiz123');";
+            PreparedStatement statement = conexao1.prepareStatement(sql);
+            statement.execute();
+            conexao1.close();
+            
+            // controller.salvarUsuario();
         } catch (SQLException ex) {
             Logger.getLogger(cadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    // controller.salvarUsuario();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.DAO.Conexao;
+import model.DAO.Conexao1;
 import model.Usuario;
 import view.Login;
 

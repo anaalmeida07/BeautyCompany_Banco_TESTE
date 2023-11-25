@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import model.DAO.Conexao;
+import model.DAO.Conexao1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import model.Usuario;

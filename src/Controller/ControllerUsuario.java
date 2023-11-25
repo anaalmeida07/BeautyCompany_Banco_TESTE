@@ -9,7 +9,7 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.SQLException;
-import model.DAO.Conexao;
+import model.DAO.Conexao1;
 import model.Usuario;
 import view.Login;
 import view.MenuPrincipal;
@@ -29,7 +29,7 @@ public class ControllerUsuario {
     public ControllerUsuario(cadastroUsuario tela) throws SQLException {
       
          this.view = tela;
-        this.connection = new Conexao().getConnection(); // Inicializa a conexão aqui
+        this.connection = new Conexao1().getConnection(); // Inicializa a conexão aqui
         this.usuarioDAO = new UsuarioDAO(connection); // Inicializa usuarioDAO com a conexão
         
     }
@@ -45,7 +45,7 @@ public class ControllerUsuario {
             
             Connection conexao;
             
-            conexao = new Conexao().getConnection();
+            conexao = new Conexao1().getConnection();
             UsuarioDAO usuarioDao = new UsuarioDAO(conexao);
             usuarioDao.insert(usuario1);
         } catch (SQLException ex) {
