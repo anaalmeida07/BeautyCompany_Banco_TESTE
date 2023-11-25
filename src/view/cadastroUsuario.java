@@ -4,9 +4,10 @@
  */
 package view;
 
-import Controller.ControllerUsuario;
+
 import Model.DAO.UsuarioDAO;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,12 +22,12 @@ import model.Usuario;
  * @author crist
  */
 public class cadastroUsuario extends javax.swing.JFrame {
-    private final ControllerUsuario controller;
+  //  private final ControllerUsuario controller;
     /**
      */
     public cadastroUsuario() {
         initComponents();
-        controller = new ControllerUsuario(this);
+      //  controller = new ControllerUsuario(this);
     }
 
     /**
@@ -95,8 +96,18 @@ public class cadastroUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-     controller.salvarUsuario();
+      try {
+            Connection conexao = new Conexao().getConnection();
+            String sql = "insert into usuarioo(usuarioo, senha1) values ('anaa', '123');";
+          PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.execute();
+            conexao.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(cadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    // controller.salvarUsuario();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

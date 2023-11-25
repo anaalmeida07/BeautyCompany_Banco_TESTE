@@ -31,6 +31,12 @@ public class LoginController {
     public LoginController(Login view) {
         this.view = view; //acessivel de qualquer lugar da classe
         this.helper = new LoginHelper(view);
+        
+    }
+
+    public LoginController(Login view, Connection connection) {
+        this.view = view;
+        this.connection = connection;
     }
     
      

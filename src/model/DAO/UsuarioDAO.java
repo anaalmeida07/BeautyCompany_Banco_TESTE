@@ -14,33 +14,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DAO.Conexao;
 import model.Usuario;
-
-
-
+import view.Login;
 
 /**
  *
  * @author tiago
  */
 public class UsuarioDAO {
-    private final Connection connection;
+   
 
     public UsuarioDAO(Connection connection) {
-        this.connection = connection;
-        
+      
     }
     
     /**
      * Insere um usuario dentro do banco de dados
      * @param usuario exige que seja passado um objeto do tipo usuario
      */
-    public void insert(Usuario usuarioCadastro) throws SQLException{
-            String sql = "insert into usuarioTabela(usuario,senha) values ('"+ usuarioCadastro.getNome()+"', '"+ usuarioCadastro.getSenha()+"');";
+    public void insert(Usuario usuario) throws SQLException{
             
-            PreparedStatement statment = connection.prepareStatement(sql);
-            statment.execute();
-            connection.close();
-        Banco.usuario.add(usuarioCadastro);
+        Banco.usuario.add(usuario);
     }
     
     /**

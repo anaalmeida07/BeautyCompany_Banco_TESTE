@@ -4,7 +4,6 @@
  */
 package Controller;
 
-import Controller.Helper.CadastroHelper;
 import Model.DAO.UsuarioDAO;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -22,15 +21,17 @@ import view.cadastroUsuario;
  */
 public class ControllerUsuario {
     private final cadastroUsuario view;
-   // private CadastroHelper helper1;
-   // private Connection connection;
-    // private final UsuarioDAO usuarioDAO;
+   
+  
+   private Connection connection;
+     private final UsuarioDAO usuarioDAO;
 
-    public ControllerUsuario(cadastroUsuario tela) {
-       /* this.helper1 = helper;
-        this.connection = connection;
-        this.usuarioDAO = usuarioDAO;*/
-        this.view = tela;
+    public ControllerUsuario(cadastroUsuario tela) throws SQLException {
+      
+         this.view = tela;
+        this.connection = new Conexao().getConnection(); // Inicializa a conexão aqui
+        this.usuarioDAO = new UsuarioDAO(connection); // Inicializa usuarioDAO com a conexão
+        
     }
     
    
@@ -54,6 +55,4 @@ public class ControllerUsuario {
  
       
       
-    
-    
-}
+    }

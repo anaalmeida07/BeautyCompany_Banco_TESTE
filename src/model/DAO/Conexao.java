@@ -19,7 +19,7 @@ import java.sql.SQLException;
  */
 public class Conexao {
     public Connection getConnection() throws SQLException{
-        Connection conexao = (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/usuarioBanco","postgres", "postgres");
+        Connection conexao = (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/usuario1","postgres", "postgres");
         return conexao;
     }
 }
