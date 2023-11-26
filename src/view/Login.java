@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import model.DAO.Conexao1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import javax.swing.JLabel;
 import model.Usuario;
 
 
@@ -136,19 +137,20 @@ public class Login extends javax.swing.JFrame {
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
         // executar  quando clicar no botão
         this.controller.entrarNoSistema();
-       
-            this.dispose();
-           // Abrir o novo JFrame (MenuPrincipal)  
-          MenuPrincipal menuPrincipal = new MenuPrincipal();
-            menuPrincipal.setVisible(true);
-            
+            //this.dispose(); 
+         
+           
         
         
        
     }//GEN-LAST:event_entrarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.controller.navegarParaCadastro();
+     try {
+         this.controller.navegarParaCadastro();
+     } catch (SQLException ex) {
+         Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -219,7 +221,6 @@ public class Login extends javax.swing.JFrame {
     public void setTextUsuario(JTextField TextUsuario) {
         this.TextUsuario = TextUsuario;
     }
-    
-    
+
 }
 

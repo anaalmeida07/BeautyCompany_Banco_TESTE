@@ -8,6 +8,7 @@ package Model.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -15,16 +16,17 @@ import java.util.logging.Logger;
 import model.DAO.Conexao1;
 import model.Usuario;
 import view.Login;
+import view.cadastroUsuario;
 
 /**
  *
  * @author tiago
  */
 public class UsuarioDAO {
-   
+   private final Connection connection;
 
     public UsuarioDAO(Connection connection) {
-      
+        this.connection = connection;
     }
     
     /**
@@ -32,8 +34,24 @@ public class UsuarioDAO {
      * @param usuario exige que seja passado um objeto do tipo usuario
      */
     public void insert(Usuario usuario) throws SQLException{
+          
+            //vai inserir o usuario
+            String sql = "insert into usuario (usuario, senha) values ('"+ usuario.getNome()+"', '"+usuario.getSenha()+"');";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.execute();
             
+           
+       
         Banco.usuario.add(usuario);
+    }
+    
+     public boolean existeNoBancoPorUsuarioESenha(Usuario usuario) throws SQLException {
+        String sql = "select * from usuario where usuario = '"+usuario.getNome()+"' and senha = '"+usuario.getSenha()+"'";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.execute();
+       ResultSet resultSet = statement.getResultSet();
+       //varre as linhas, se tiver algum resultado return true
+          return resultSet.next();
     }
     
     /**
@@ -109,6 +127,8 @@ public class UsuarioDAO {
     private boolean idSaoIguais(Usuario usuario, Usuario usuarioAComparar) {
         return usuario.getId() ==  usuarioAComparar.getId();
     }
+
+  
     
     
     

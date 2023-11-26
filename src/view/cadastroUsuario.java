@@ -5,12 +5,14 @@
 package view;
 
 
+import Controller.ControllerUsuario;
 import Model.DAO.UsuarioDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,12 +24,12 @@ import model.Usuario;
  * @author crist
  */
 public class cadastroUsuario extends javax.swing.JFrame {
-  //  private final ControllerUsuario controller;
+    private final ControllerUsuario controller;
     /**
      */
-    public cadastroUsuario() {
+    public cadastroUsuario() throws SQLException {
         initComponents();
-      //  controller = new ControllerUsuario(this);
+      controller = new ControllerUsuario(this);
     }
 
     /**
@@ -41,7 +43,7 @@ public class cadastroUsuario extends javax.swing.JFrame {
 
         Usuario = new javax.swing.JTextField();
         SenhaUsuario = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        salvar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         fundo = new javax.swing.JLabel();
@@ -62,13 +64,13 @@ public class cadastroUsuario extends javax.swing.JFrame {
         SenhaUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         getContentPane().add(SenhaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 280, 40));
 
-        jButton1.setText("SALVAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        salvar.setText("SALVAR");
+        salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                salvarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 150, 50));
+        getContentPane().add(salvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 150, 50));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,21 +97,9 @@ public class cadastroUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            Connection conexao1 = new Conexao1().getConnection();
-            
-            String sql = "insert into usuario (usuario, senha) values ('luiz', 'luiz123');";
-            PreparedStatement statement = conexao1.prepareStatement(sql);
-            statement.execute();
-            conexao1.close();
-            
-            // controller.salvarUsuario();
-        } catch (SQLException ex) {
-            Logger.getLogger(cadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
+     controller.salvarUsuario();
+    }//GEN-LAST:event_salvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,9 +132,21 @@ public class cadastroUsuario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cadastroUsuario().setVisible(true);
+                try {
+                    new cadastroUsuario().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(cadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
+    }
+
+    public JTextField getUsuario() {
+        return Usuario;
+    }
+
+    public void setUsuario(JTextField Usuario) {
+        this.Usuario = Usuario;
     }
 
     public JTable getjTable1() {
@@ -155,14 +157,6 @@ public class cadastroUsuario extends javax.swing.JFrame {
         this.jTable1 = jTable1;
     }
 
-    public JTextField getIDUsuario() {
-        return Usuario;
-    }
-
-    public void setIDUsuario(JTextField IDUsuario) {
-        this.Usuario = IDUsuario;
-    }
-
     public JPasswordField getSenhaUsuario() {
         return SenhaUsuario;
     }
@@ -170,14 +164,16 @@ public class cadastroUsuario extends javax.swing.JFrame {
     public void setSenhaUsuario(JPasswordField SenhaUsuario) {
         this.SenhaUsuario = SenhaUsuario;
     }
+
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField SenhaUsuario;
     private javax.swing.JTextField Usuario;
     private javax.swing.JLabel fundo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton salvar;
     // End of variables declaration//GEN-END:variables
 }

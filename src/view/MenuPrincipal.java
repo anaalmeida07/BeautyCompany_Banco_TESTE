@@ -86,12 +86,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastroActionPerformed
-      this.controller1.navegarParaCadastro();
+       try {
+           this.controller1.navegarParaCadastro();
+       } catch (SQLException ex) {
+           Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+       }
      
     }//GEN-LAST:event_CadastroActionPerformed
 
     private void Agendamento1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agendamento1ActionPerformed
         // TODO add your handling code here:
+        this.controller.navegarParaAgenda();
     }//GEN-LAST:event_Agendamento1ActionPerformed
 
     /**
