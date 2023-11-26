@@ -9,6 +9,7 @@ package view;
 import Controller.LoginController;
 import Controller.MenuPrincipalController;
 import Controller.LoginController;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
    private final MenuPrincipalController controller;
    private final LoginController controller1;
+
     private Login view;
+    private Cliente view1;
+    
   
     
     /**
@@ -30,12 +34,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
         initComponents();
         this.controller = new MenuPrincipalController(this);
        this.controller1 = new LoginController(view);
+ 
+      
     }
 
     public MenuPrincipal(MenuPrincipalController controller, LoginController controller1, Login loginView, cadastroUsuario cadastroView) {
         this.controller = controller;
        this.controller1 = controller1;
         
+    }
+
+    public MenuPrincipal(MenuPrincipalController controller, LoginController controller1) {
+        this.controller = controller;
+        this.controller1 = controller1;
+ 
     }
 
     /**
@@ -50,6 +62,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         Cadastro = new javax.swing.JToggleButton();
         Agendamento1 = new javax.swing.JToggleButton();
+        Cadastro1 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,7 +70,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         Cadastro.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         Cadastro.setSelected(true);
-        Cadastro.setText("Cadastro");
+        Cadastro.setText("Cliente");
         Cadastro.setBorderPainted(false);
         Cadastro.setContentAreaFilled(false);
         Cadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -65,7 +78,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 CadastroActionPerformed(evt);
             }
         });
-        getContentPane().add(Cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 260, 40));
+        getContentPane().add(Cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 340, 260, 40));
 
         Agendamento1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         Agendamento1.setSelected(true);
@@ -77,7 +90,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 Agendamento1ActionPerformed(evt);
             }
         });
-        getContentPane().add(Agendamento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, 260, 40));
+        getContentPane().add(Agendamento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 260, 40));
+
+        Cadastro1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        Cadastro1.setSelected(true);
+        Cadastro1.setText("Cadastro");
+        Cadastro1.setBorderPainted(false);
+        Cadastro1.setContentAreaFilled(false);
+        Cadastro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Cadastro1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Cadastro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 260, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/MenuPrincipal.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -86,18 +111,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastroActionPerformed
-       try {
-           this.controller1.navegarParaCadastro();
-       } catch (SQLException ex) {
-           Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-       }
+      //  this.controller.navegarParaCadastro();
      
     }//GEN-LAST:event_CadastroActionPerformed
 
     private void Agendamento1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agendamento1ActionPerformed
-        // TODO add your handling code here:
-        this.controller.navegarParaAgenda();
+       try {
+           // TODO add your handling code here:
+           this.controller.navegarParaAgenda();
+       } catch (SQLException ex) {
+           Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_Agendamento1ActionPerformed
+
+    private void Cadastro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cadastro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Cadastro1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,6 +166,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Agendamento1;
     private javax.swing.JToggleButton Cadastro;
+    private javax.swing.JToggleButton Cadastro1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

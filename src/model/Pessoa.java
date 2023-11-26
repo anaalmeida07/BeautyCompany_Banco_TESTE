@@ -51,6 +51,11 @@ abstract public class Pessoa {
         this.nome = nome;
     }
 
+    public Pessoa(String nome, String telefone) {
+        this.nome = nome;
+        this.telefone = telefone;
+    }
+
     
     public int getId() {
         return id;

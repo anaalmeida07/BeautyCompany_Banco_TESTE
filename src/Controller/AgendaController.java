@@ -8,6 +8,8 @@ import Controller.Helper.AgendaHelper;
 import Model.DAO.AgendamentoDAO;
 import Model.DAO.ClienteDAO;
 import Model.DAO.ServicoDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Agendamento;
 import model.Cliente;
@@ -25,11 +27,18 @@ import view.agendamento;
 public class AgendaController {
     private final agendamento view;
     private final AgendaHelper helper;
+    private  Connection connection;
     
 
     public AgendaController(agendamento view) {
         this.view = view;
         this.helper = new AgendaHelper(view);
+    }
+
+    public AgendaController(agendamento view, AgendaHelper helper, Connection connection) {
+        this.view = view;
+        this.helper = helper;
+        this.connection = connection;
     }
     
     public void AtualizaTabela(){
@@ -40,9 +49,9 @@ public class AgendaController {
         helper.preencherTabela(agendamentos);
     }     
     
-     public void atualizaCliente(){
+     public void atualizaCliente() throws SQLException{
         //Buscar clientes do banco de dados 
-        ClienteDAO clienteDAO = new ClienteDAO();
+        ClienteDAO clienteDAO = new ClienteDAO(connection);
         ArrayList<Cliente> clientes = clienteDAO.selectAll();
         
         //exibir clientes no combobox cliente
