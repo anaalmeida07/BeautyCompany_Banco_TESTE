@@ -1,66 +1,62 @@
 package Model.DAO;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 import model.Cliente;
 
 
 
+
+
 public class ClienteDAO {
-     public static ArrayList<Cliente> clientes = new ArrayList<>();
-    /**
-     * Insere um cliente dentro do banco de dados
-     * @param cliente exige que seja passado um objeto do tipo cliente
-     */
-    public void insert(Cliente cliente){
-        Banco.cliente.add(cliente);
+    private final Connection connection;
+
+    public ClienteDAO(Connection connection) {
+        this.connection = connection;
     }
     
-    /**
-     * Atualiza um Objeto no banco de dados
-     * @param cliente
-     * @return 
-     */
-    public boolean update(Cliente cliente){
+    public void insert(Cliente cliente) throws SQLException {
+        String sql = "insert into cliente (nome, telefone) values (?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, cliente.getNome());
+        statement.setString(2, cliente.getTelefone());
+        statement.execute();
+    }
+    
+     public boolean existeNoBancoPorNomeETelefone(Cliente cliente) throws SQLException {
+        String sql = "select * from usuario where nome = ? and telefone = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, cliente.getNome());
+        statement.setString(2, cliente.getTelefone());
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.next();
+    }
+     
+     
+      public ArrayList<Cliente> selectAll() throws SQLException {
+        String sql = "select * from usuario";
+        PreparedStatement statement = connection.prepareStatement(sql);
+    
+        return pesquisa(statement);
+    }
+
+    private ArrayList<Cliente> pesquisa(PreparedStatement statement) throws SQLException {
+        ArrayList<Cliente> usuarios = new ArrayList<>();
+        statement.execute();
+        ResultSet resultSet1 = statement.getResultSet();
         
-        for (int i = 0; i < Banco.cliente.size(); i++) {
-            if(idSaoIguais(Banco.cliente.get(i), cliente)){
-                Banco.cliente.set(i, cliente);
-                return true;
-            }
+        
+        while (resultSet1.next()) {
+            String nome=resultSet1.getString("nome"), telefone=resultSet1.getString("telefone");
+            Cliente usuarioComDadosDoBanco = new Cliente(nome, telefone);
+            usuarios.add(usuarioComDadosDoBanco);
         }
-        return false;      
-    }
-    
-    /**
-     * Deleta um objeto do banco de dados pelo id do cliente passado
-     * @param cliente
-     * @return 
-     */
-    public boolean delete(Cliente cliente){
-        for (Cliente clienteLista : Banco.cliente) {
-            if(idSaoIguais(clienteLista, cliente)){
-                Banco.cliente.remove(clienteLista);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Retorna um ArrayList com todos os clientes do banco de dados
-     * @return uma lista com todos os registros do banco
-     */
-    public ArrayList<Cliente> selectAll(){
-        return Banco.cliente;
-    }
-    
-    /**
-     * Compara se dois objetos têm a propriedade id igual
-     * @param cliente
-     * @param clienteAComparar
-     * @return verdadeiro caso os ids forem iguais e falso se não forem
-     */
-    private boolean idSaoIguais(Cliente cliente, Cliente clienteAComparar) {
-        return cliente.getId() ==  clienteAComparar.getId();
+        return usuarios;
     }
 }
+    
+     

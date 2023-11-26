@@ -8,7 +8,10 @@ import Controller.AgendaController;
 import Controller.Voltar;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -31,7 +34,7 @@ public class agendamento extends javax.swing.JFrame {
     /**
      * Creates new form agendamento
      */
-    public agendamento() {
+    public agendamento() throws SQLException {
         initComponents();
         controller = new AgendaController(this);
         MenuPrincipal MenuPrincipal = null;
@@ -231,7 +234,11 @@ public class agendamento extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new agendamento().setVisible(true);
+                try {
+                    new agendamento().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(agendamento.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -252,7 +259,7 @@ public class agendamento extends javax.swing.JFrame {
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
 
-    private void iniciar() {
+    private void iniciar() throws SQLException {
     this.controller.AtualizaTabela();
     this.controller.atualizaCliente();
     this.controller.atualizaServico();

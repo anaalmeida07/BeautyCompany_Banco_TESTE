@@ -4,13 +4,13 @@
  */
 package Controller;
 
-import Controller.Helper.CadastroHelper;
 import Model.DAO.UsuarioDAO;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.SQLException;
-import model.DAO.Conexao;
+import javax.swing.JOptionPane;
+import model.DAO.Conexao1;
 import model.Usuario;
 import view.Login;
 import view.MenuPrincipal;
@@ -22,38 +22,40 @@ import view.cadastroUsuario;
  */
 public class ControllerUsuario {
     private final cadastroUsuario view;
-   // private CadastroHelper helper1;
-   // private Connection connection;
-    // private final UsuarioDAO usuarioDAO;
+   
+  
+   private Connection connection;
+     private final UsuarioDAO usuarioDAO;
 
-    public ControllerUsuario(cadastroUsuario tela) {
-       /* this.helper1 = helper;
-        this.connection = connection;
-        this.usuarioDAO = usuarioDAO;*/
-        this.view = tela;
+    public ControllerUsuario(cadastroUsuario tela) throws SQLException {
+      
+         this.view = tela;
+        this.connection = new Conexao1().getConnection(); // Inicializa a conexão aqui
+        this.usuarioDAO = new UsuarioDAO(connection); // Inicializa usuarioDAO com a conexão
+        
     }
     
    
 
     public void salvarUsuario() {
         
+       String usuario = view.getUsuario().getText();
+     String senha = view.getSenhaUsuario().getText();
+        
+        
+        Usuario usuarios = new Usuario(usuario, senha);
         try {
-            String usuario = view.getIDUsuario().getText();
-            String senha = view.getSenhaUsuario().getText();
-            Usuario usuario1 = new Usuario(usuario, senha);
-            
-            Connection conexao;
-            
-            conexao = new Conexao().getConnection();
+     
+            Connection conexao = new Conexao1().getConnection();
             UsuarioDAO usuarioDao = new UsuarioDAO(conexao);
-            usuarioDao.insert(usuario1);
+            usuarioDao.insert(usuarios);
+            JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
+            
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(ControllerUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(cadastroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    }
+        //
  
       
-      
-    
-    
-}
+    }
+    }

@@ -31,6 +31,10 @@ public class Cliente extends Pessoa {
         this.cep = cep;
     }
 
+    public Cliente(String nome, String telefone) {
+        super(nome, telefone);
+    }
+
     
     
     public String getEndereco() {

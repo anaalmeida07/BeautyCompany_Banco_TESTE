@@ -1,122 +1,83 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.DAO;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.DAO.Conexao;
 import model.Usuario;
+import view.Login;
 
-
-
-
-/**
- *
- * @author tiago
- */
 public class UsuarioDAO {
     private final Connection connection;
 
     public UsuarioDAO(Connection connection) {
         this.connection = connection;
+    }
+
+    public void insert(Usuario usuario) throws SQLException {
+        String sql = "insert into usuario (usuario, senha) values (?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, usuario.getNome());
+        statement.setString(2, usuario.getSenha());
+        statement.execute();
+    }
+
+    public boolean existeNoBancoPorUsuarioESenha(Usuario usuario) throws SQLException {
+        String sql = "select * from usuario where usuario = ? and senha = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, usuario.getNome());
+        statement.setString(2, usuario.getSenha());
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.next();
+    }
+
+    public boolean update(Usuario usuario) throws SQLException {
+        String sql = "update usuario set usuario = ?, senha = ? where id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, usuario.getNome());
+        statement.setString(2, usuario.getSenha());
+        statement.setInt(3, usuario.getId());
+        return statement.executeUpdate() > 0;
+    }
+
+    public boolean delete(Usuario usuario) throws SQLException {
+        String sql = "delete from usuario where id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, usuario.getId());
+        return statement.executeUpdate() > 0;
+    }
+
+    public ArrayList<Usuario> selectAll() throws SQLException {
+        String sql = "select * from usuario";
+        PreparedStatement statement = connection.prepareStatement(sql);
+    
+        return pesquisa(statement);
+    }
+
+    private ArrayList<Usuario> pesquisa(PreparedStatement statement) throws SQLException {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        statement.execute();
+        ResultSet resultSet1 = statement.getResultSet();
+        
+        
+        while (resultSet1.next()) {
+            int id= resultSet1.getInt("id");
+            String usuario=resultSet1.getString("usuario"), senha=resultSet1.getString("senha");
+            Usuario usuarioComDadosDoBanco = new Usuario(id, usuario, senha);
+            usuarios.add(usuarioComDadosDoBanco);
+        }
+        return usuarios;
+    }
+    public Usuario selectPorId(Usuario usuario) throws SQLException{
+         String sql = "select * from usuario where id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, usuario.getId());
+        return pesquisa(statement).get(0);
+         
+        
         
     }
-    
-    /**
-     * Insere um usuario dentro do banco de dados
-     * @param usuario exige que seja passado um objeto do tipo usuario
-     */
-    public void insert(Usuario usuarioCadastro) throws SQLException{
-            String sql = "insert into usuarioTabela(usuario,senha) values ('"+ usuarioCadastro.getNome()+"', '"+ usuarioCadastro.getSenha()+"');";
-            
-            PreparedStatement statment = connection.prepareStatement(sql);
-            statment.execute();
-            connection.close();
-        Banco.usuario.add(usuarioCadastro);
-    }
-    
-    /**
-     * Atualiza um Objeto no banco de dados
-     * @param usuario
-     * @return 
-     */
-    public boolean update(Usuario usuario){
-        
-        for (int i = 0; i < Banco.usuario.size(); i++) {
-            if(idSaoIguais((Usuario) Banco.usuario.get(i),usuario)){
-                Banco.usuario.set(i, usuario);
-                return true;
-            }
-        }
-        return false;      
 
-    }
-    
-    /**
-     * Deleta um objeto do banco de dados pelo id do usuario passado
-     * @param usuario
-     * @return 
-     */
-    public boolean delete(Usuario usuario){
-        for (Object usuarioLista : Banco.usuario) {
-            if(idSaoIguais((Usuario) usuarioLista,usuario)){
-                Banco.usuario.remove(usuarioLista);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Retorna um arraylist com todos os usuarios do banco de dados
-     * @return uma lista com todos os registros do banco
-     */
-    public ArrayList<Usuario> selectAll(){
-        return Banco.usuario;
-    }
-    
-    /**
-     * Retorna um Objeto do tipo usuario se a funcao encontrar o usuario passado como parâmetro no banco, para considerar sao usado nome e senha
-     * @param usuario
-     * @return Usuario encontrado no banco de dados
-     */
-    public Usuario selectPorNomeESenha(Usuario usuario){
-        for (Object usuarioLista : Banco.usuario) {
-            if(nomeESenhaSaoIguais((Usuario) usuarioLista,usuario)){
-                return (Usuario) usuarioLista;
-            }
-        }
-        return null;
-    }
 
-    /**
-     * Recebe dois objetos e verifica se são iguais verificando o nome e senha
-     * @param usuario
-     * @param usuarioAPesquisar
-     * @return verdadeiro caso sejam iguais e falso caso nao forem iguais
-     */
-    private boolean nomeESenhaSaoIguais(Usuario usuario, Usuario usuarioAPesquisar) {
-        return usuario.getNome().equals(usuarioAPesquisar.getNome()) && usuario.getSenha().equals(usuarioAPesquisar.getSenha());
-    }
-
-    /**
-     * Compara se dois objetos tem a propriedade id igual
-     * @param usuario
-     * @param usuarioAComparar
-     * @return verdadeiro caso os id forem iguais e falso se nao forem
-     */
-    private boolean idSaoIguais(Usuario usuario, Usuario usuarioAComparar) {
-        return usuario.getId() ==  usuarioAComparar.getId();
-    }
-    
-    
-    
 }
