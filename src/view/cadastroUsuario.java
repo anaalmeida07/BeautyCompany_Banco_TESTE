@@ -99,6 +99,7 @@ public class cadastroUsuario extends javax.swing.JFrame {
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
      controller.salvarUsuario();
+     
     }//GEN-LAST:event_salvarActionPerformed
 
     /**

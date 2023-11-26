@@ -34,10 +34,13 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-   public Login() {
+   public Login() throws SQLException {
         initComponents();
         //uma variavel controller do tipo LoginController
         controller = new LoginController(this);
+        cadastroUsuario telaCadastro = new cadastroUsuario(); // Instância de cadastroUsuario
+        LoginController controller = new LoginController(this, telaCadastro);
+    
         Banco.inicia();
     }
 
@@ -135,9 +138,13 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_TextUsuarioActionPerformed
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        // executar  quando clicar no botão
-        this.controller.entrarNoSistema();
-            //this.dispose(); 
+     try {
+         // executar  quando clicar no botão
+         this.controller.entrarNoSistema();
+         //this.dispose(); 
+     } catch (SQLException ex) {
+         Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+     }
          
            
         
@@ -185,7 +192,11 @@ public class Login extends javax.swing.JFrame {
                 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    new Login().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
